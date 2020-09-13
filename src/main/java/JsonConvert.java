@@ -1,25 +1,28 @@
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.Arrays;
+import java.util.List;
 
 public class JsonConvert {
 
-    private CatFacts[] jsonArray;
+    private List<CatFacts> jsonArray;
 
-    public JsonConvert(CatFacts[] jsonArray) {
+    public JsonConvert(@JsonProperty("all") List<CatFacts> jsonArray) {
         this.jsonArray = jsonArray;
     }
 
-    public CatFacts[] getJsonArray() {
+    public List<CatFacts> getJsonArray() {
         return jsonArray;
     }
 
-    public void setJsonArray(CatFacts[] jsonArray) {
+    public void setJsonArray(List<CatFacts> jsonArray) {
         this.jsonArray = jsonArray;
     }
 
     @Override
     public String toString() {
         return "JsonConvert{" +
-                "jsonArray=" + Arrays.toString(jsonArray) +
+                "jsonArray=" + jsonArray +
                 '}';
     }
 }

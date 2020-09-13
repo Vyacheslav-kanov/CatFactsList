@@ -10,13 +10,17 @@ import org.apache.http.impl.client.CloseableHttpClient;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Main {
 
     private static List<CatFacts> list;
-    private static CatFacts[] arr;
+    private static List<CatFacts> result;
+    private static JsonConvert arr;
     private static ObjectMapper  mapper = new ObjectMapper();
     public static void main(String[] args) {
         try {
@@ -35,12 +39,14 @@ public class Main {
             Arrays.stream(request.getAllHeaders()).forEach(System.out::println);
             System.out.println(response);
 
-//            list = mapper.readValue(response.getEntity().getContent(), new TypeReference<List<CatFacts>>() {});
-//            list.forEach(System.out::println);
-//
-            arr = mapper.readValue(response.getEntity().getContent(), CatFacts[].class);
-            System.out.println(arr);
+            arr = mapper.readValue(response.getEntity().getContent(), new TypeReference<JsonConvert>() {});
+            list = arr.getJsonArray();
+            Stream<CatFacts> stream = list.stream();
+            result = stream
+                    .filter(x -> !x.getUpvotes().equals(null))
+                    .collect(Collectors.toList());
 
+            result.forEach(System.out::println);
 
         } catch (IOException e) {
             e.printStackTrace();
