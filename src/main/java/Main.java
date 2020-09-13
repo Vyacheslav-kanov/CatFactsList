@@ -16,6 +16,7 @@ import java.util.List;
 public class Main {
 
     private static List<CatFacts> list;
+    private static CatFacts[] arr;
     private static ObjectMapper  mapper = new ObjectMapper();
     public static void main(String[] args) {
         try {
@@ -34,11 +35,12 @@ public class Main {
             Arrays.stream(request.getAllHeaders()).forEach(System.out::println);
             System.out.println(response);
 
-            list = mapper.readValue(response.getEntity().getContent(), new TypeReference<List<CatFacts>>() {});
-            list.forEach(System.out::println);
+//            list = mapper.readValue(response.getEntity().getContent(), new TypeReference<List<CatFacts>>() {});
+//            list.forEach(System.out::println);
+//
+            arr = mapper.readValue(response.getEntity().getContent(), CatFacts[].class);
+            System.out.println(arr);
 
-//            String json = mapper.readValue(response.getEntity().getContent(), new TypeReference<String>() {});
-//            System.out.println(json);
 
         } catch (IOException e) {
             e.printStackTrace();
